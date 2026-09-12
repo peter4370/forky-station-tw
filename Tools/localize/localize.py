@@ -20,8 +20,8 @@ try:
     except ImportError:
         from yaml import SafeLoader
 except ImportError:
-    print("Ошибка: Библиотека 'pyyaml' не установлена, но она обязательна для работы.")
-    print("Установите её с помощью команды: pip install pyyaml")
+    print("錯誤：尚未安裝「pyyaml」函式庫，但此工具必須使用它。")
+    print("請使用以下指令安裝：pip install pyyaml")
     sys.exit(1)
 
 
@@ -258,7 +258,7 @@ class FtlParser:
                     buffer.append(raw_line.rstrip("\n"))
 
         except OSError as e:
-            logging.error(f"Ошибка чтения fluent файла {filepath}: {e}")
+            logging.error(f"讀取 Fluent 檔案 {filepath} 時發生錯誤：{e}")
 
         buffer.extend(pending_blanks)
         return entries, buffer, ends_with_newline
@@ -353,11 +353,11 @@ class FtlParser:
                 f.write(content)
 
         except OSError as e:
-            logging.error(f"Ошибка записи fluent файла {filepath}: {e}")
+            logging.error(f"寫入 Fluent 檔案 {filepath} 時發生錯誤：{e}")
 
 
 class LocalizationManager:
-    CYRILLIC_PATTERN = re.compile(r"[А-Яа-яЁё]")
+    CYRILLIC_PATTERN = re.compile(r"[\u3400-\u4DBF\u4E00-\u9FFF]")
     LATIN_PATTERN = re.compile(r"[a-zA-Z]")
     RE_INNER_DASH = re.compile(r"(?<=\s)-(?=\s)")
 
@@ -367,7 +367,7 @@ class LocalizationManager:
         self.resources_dir = self.root_dir / "Resources"
         self.locales_dir = self.resources_dir / "Locale"
         self.en_us_dir = self.locales_dir / "en-US"
-        self.ru_ru_dir = self.locales_dir / "ru-RU"
+        self.ru_ru_dir = self.locales_dir / "zh-TW"
         self.robust_en_dir = (
             self.root_dir / "RobustToolbox" / "Resources" / "Locale" / "en-US"
         )
@@ -397,13 +397,13 @@ class LocalizationManager:
                             ignore_untranslated_paths.append(
                                 (self.root_dir / p).resolve()
                             )
-                logging.info(f"Конфигурация загружена из {config_path.name}")
+                logging.info(f"已從 {config_path.name} 載入設定")
             except Exception as e:
-                logging.error(f"Ошибка чтения конфигурации {config_path}: {e}")
+                logging.error(f"讀取設定檔 {config_path} 時發生錯誤：{e}")
         else:
             logging.info(
-                f"Конфигурационный файл {config_file} не найден. "
-                "Игнорирование путей отключено."
+                f"找不到設定檔 {config_file}。"
+                "已停用路徑忽略功能。"
             )
 
         return ignore_paths, ignore_untranslated_paths
@@ -660,7 +660,7 @@ class LocalizationManager:
         valid_targets: Set[Path] = set()
 
         if not src_dir.exists():
-            logging.warning(f"Исходная директория {src_dir} не найдена.")
+            logging.warning(f"找不到來源目錄 {src_dir}。")
             return valid_targets
 
         for src_file in src_dir.rglob("*.ftl"):
@@ -695,8 +695,8 @@ class LocalizationManager:
                         and ru_entries[key].variables != en_entry.variables
                     ):
                         logging.warning(
-                            f"Несовпадение переменных в {rel_path}: {key}. "
-                            f"Ожидается: {en_entry.variables}, найдено: {ru_entries[key].variables}"
+                            f"{rel_path} 中的變數不一致：{key}。"
+                            f"預期：{en_entry.variables}，實際找到：{ru_entries[key].variables}"
                         )
 
                     new_ru_entries[key] = FtlEntry(
@@ -733,8 +733,8 @@ class LocalizationManager:
                         val_sp = ru_entries[key].val_space
                         if ru_entries[key].variables != en_entry.variables:
                             logging.warning(
-                                f"Несовпадение переменных в {rel_path}: {key}. "
-                                f"Ожидается: {en_entry.variables}, найдено: {ru_entries[key].variables}"
+                                f"{rel_path} 中的變數不一致：{key}。 "
+                                f"預期：{en_entry.variables}，實際找到：{ru_entries[key].variables}"
                             )
                     else:
                         prec_text = en_entry.preceding_text.copy()
@@ -785,18 +785,18 @@ class LocalizationManager:
 
             if resolved_file not in valid_targets:
                 logging.info(
-                    f"Удаление устаревшего файла: {target_file.relative_to(self.root_dir)}"
+                    f"正在刪除過時的檔案：{target_file.relative_to(self.root_dir)}"
                 )
                 try:
                     target_file.unlink()
                 except OSError as e:
-                    logging.error(f"Ошибка удаления файла {target_file}: {e}")
+                    logging.error(f"刪除檔案 {target_file} 時發生錯誤：{e}")
 
     def process_prototypes(self) -> None:
-        logging.info("Обработка прототипов...")
+        logging.info("正在處理 Prototype……")
         if not self.prototypes_src_dir.exists():
             logging.error(
-                f"Директория прототипов не найдена: {self.prototypes_src_dir}"
+                f"找不到 Prototype 目錄：{self.prototypes_src_dir}"
             )
             return
 
@@ -813,14 +813,14 @@ class LocalizationManager:
                     for proto in future.result():
                         prototypes[proto.id] = proto
                 except Exception as e:
-                    logging.error(f"Ошибка парсинга YAML в {futures[future]}: {e}")
+                    logging.error(f"解析 {futures[future]} 中的 YAML 時發生錯誤：{e}")
 
         resolved_prototypes = self._resolve_inheritance(prototypes)
         valid_ftls = self._generate_prototype_ftls(resolved_prototypes)
 
         self._cleanup_orphans(self.prototypes_ru_dir, valid_ftls)
 
-        logging.info("Обработка прототипов завершена.")
+        logging.info("Prototype 處理完成。")
 
     @staticmethod
     def _parse_yaml(filepath: Path) -> List[PrototypeEntry]:
@@ -1107,7 +1107,7 @@ class LocalizationManager:
         return valid_ftls
 
     def fix_dashes(self) -> None:
-        logging.info("Расстановка правильных тире вместо дефисов в локализации...")
+        logging.info("正在將本地化中的連字號替換為正確的破折號……")
         changed_files = 0
         search_dirs = [self.ru_ru_dir, self.robust_ru_dir]
 
@@ -1138,13 +1138,13 @@ class LocalizationManager:
                     FtlParser.write_file(ftl_file, entries, trailing, ends)
                     changed_files += 1
                     logging.info(
-                        f"Обновлены тире в файле: {ftl_file.relative_to(self.root_dir)}"
+                        f"已更新檔案中的破折號：{ftl_file.relative_to(self.root_dir)}"
                     )
 
-        logging.info(f"Завершена расстановка тире. Изменено файлов: {changed_files}")
+        logging.info(f"破折號處理完成。修改的檔案數：{changed_files}")
 
     def check_untranslated(self) -> None:
-        logging.info("Поиск непереведенных строк...")
+        logging.info("正在搜尋未翻譯的字串……")
         untranslated_count = 0
 
         search_dirs = [self.ru_ru_dir, self.robust_ru_dir]
@@ -1183,11 +1183,11 @@ class LocalizationManager:
                         for attr in entry.attributes.values()
                     ):
                         logging.warning(
-                            f"Возможно не переведено: {ftl_file.relative_to(self.root_dir)} -> {key}"
+                            f"可能尚未翻譯：{ftl_file.relative_to(self.root_dir)} -> {key}"
                         )
                         untranslated_count += 1
 
-        logging.info(f"Найдено потенциально непереведенных строк: {untranslated_count}")
+        logging.info(f"找到可能尚未翻譯的字串數：{untranslated_count}")
 
 
 def setup_logging() -> None:
@@ -1205,47 +1205,47 @@ def main() -> None:
     default_root = script_dir.parent.parent
 
     parser = argparse.ArgumentParser(
-        description="Инструмент управления локализацией SS14."
+        description="SS14 本地化管理工具。"
     )
     parser.add_argument(
         "--root",
         type=str,
         default=str(default_root),
-        help="Путь к корню проекта (по умолчанию автоматически определяется корень репозитория).",
+        help="專案根目錄路徑（預設會自動判斷儲存庫根目錄）。",
     )
     parser.add_argument(
         "--format",
         type=str,
         choices=["low", "medium", "high"],
         default="high",
-        help="Уровень сохранения форматирования (low, medium, high). По умолчанию: high.",
+        help="格式保留程度（low、medium、high）。預設：high。",
     )
     parser.add_argument(
         "--config",
         type=str,
         default="localize_config.yml",
-        help="Имя конфигурационного файла (по умолчанию localize_config.yml).",
+        help="設定檔名稱（預設為 localize_config.yml）。",
     )
     parser.add_argument(
-        "--sync", action="store_true", help="Синхронизировать системные FTL файлы."
+        "--sync", action="store_true", help="同步系統 FTL 檔案。"
     )
     parser.add_argument(
         "--prototypes",
         action="store_true",
-        help="Сгенерировать локализацию из YAML прототипов.",
+        help="從 YAML Prototype 產生本地化檔案。",
     )
     parser.add_argument(
         "--dashes",
         action="store_true",
-        help="Расставить тире вместо дефисов в локализации.",
+        help="將本地化中的連字號替換為破折號。",
     )
     parser.add_argument(
-        "--check", action="store_true", help="Проверить непереведенные строки."
+        "--check", action="store_true", help="檢查未翻譯的字串。"
     )
     parser.add_argument(
         "--all",
         action="store_true",
-        help="Выполнить все операции (используется по умолчанию, если ничего не передано).",
+        help="執行所有操作（未指定任何操作時預設使用）。",
     )
 
     args = parser.parse_args()
@@ -1261,13 +1261,14 @@ def main() -> None:
             manager.sync_systems()
         if args.prototypes or args.all:
             manager.process_prototypes()
-        if args.dashes or args.all:
-            manager.fix_dashes()
+        #prevent accidently use this for zh-TW
+        #if args.dashes or args.all:
+            #manager.fix_dashes()
         if args.check or args.all:
             manager.check_untranslated()
 
     except KeyboardInterrupt:
-        logging.info("Операция прервана пользователем.")
+        logging.info("操作已由使用者中止。")
 
 
 if __name__ == "__main__":
