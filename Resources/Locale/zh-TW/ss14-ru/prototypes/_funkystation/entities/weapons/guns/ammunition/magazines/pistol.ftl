@@ -1,0 +1,13 @@
+ent-BaseMagazinePistolLarge = pistol magazine (.50 AE)
+    .desc = { ent-BaseItem.desc }
+ent-MagazinePistolLarge = pistol magazine (.50 AE)
+    .desc = { ent-BaseMagazinePistolLarge.desc }
+ent-MagazinePistolLargeEmpty = pistol magazine (.50 AE any)
+    .desc = { ent-MagazinePistolLarge.desc }
+    .suffix = empty
+ent-MagazinePistolLargeIncendiary = pistol magazine (.50 AE incendiary)
+    .desc = { ent-MagazinePistolLarge.desc }
+ent-MagazinePistolLargePractice = pistol magazine (.50 AE practice)
+    .desc = { ent-BaseMagazinePistolLarge.desc }
+ent-MagazinePistolLargeUranium = pistol magazine (.50 AE uranium)
+    .desc = { ent-BaseMagazinePistolLarge.desc }

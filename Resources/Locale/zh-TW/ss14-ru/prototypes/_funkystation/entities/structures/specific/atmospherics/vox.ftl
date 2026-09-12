@@ -1,0 +1,12 @@
+ent-GasVentPumpVoxAlt1 = { ent-GasVentPumpVox }
+    .desc = { ent-GasVentPumpVox.desc }
+    .suffix = { ent-GasVentPumpVox.suffix }
+ent-GasVentPumpVoxAlt2 = { ent-GasVentPumpVox }
+    .desc = { ent-GasVentPumpVox.desc }
+    .suffix = { ent-GasVentPumpVox.suffix }
+ent-GasVentScrubberVoxAlt1 = { ent-GasVentScrubberVox }
+    .desc = { ent-GasVentScrubberVox.desc }
+    .suffix = { ent-GasVentScrubberVox.suffix }
+ent-GasVentScrubberVoxAlt2 = { ent-GasVentScrubberVox }
+    .desc = { ent-GasVentScrubberVox.desc }
+    .suffix = { ent-GasVentScrubberVox.suffix }

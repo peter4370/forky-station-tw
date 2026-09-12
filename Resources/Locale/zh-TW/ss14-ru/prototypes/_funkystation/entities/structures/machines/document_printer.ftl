@@ -1,0 +1,15 @@
+ent-BaseDocumentPrinter = Model XF-880 document printer
+    .desc = A vital fixture of administrative offices station-wide, the NanoTrasen "Xero-Flux" line of document printers has ever been a workhorse of bureaucracy.
+    .suffix = DO NOT MAP
+ent-DocumentPrinterXO = { ent-BaseDocumentPrinter }
+    .desc = { ent-BaseDocumentPrinter.desc }
+    .suffix = Executive Officer
+ent-DocumentPrinterPublic = { ent-BaseDocumentPrinter }
+    .desc = { ent-BaseDocumentPrinter.desc }
+    .suffix = Public Use
+ent-DocumentPrinterBridge = { ent-BaseDocumentPrinter }
+    .desc = { ent-BaseDocumentPrinter.desc }
+    .suffix = Bridge
+ent-DocumentPrinterCC = { ent-BaseDocumentPrinter }
+    .desc = { ent-BaseDocumentPrinter.desc }
+    .suffix = CentComm

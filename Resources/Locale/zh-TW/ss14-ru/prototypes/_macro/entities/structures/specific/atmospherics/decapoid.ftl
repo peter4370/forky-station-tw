@@ -1,0 +1,15 @@
+ent-AirSensorDecapoidBase = { ent-AirSensorBase }
+    .desc = { ent-AirSensorBase.desc }
+    .suffix = Decapoid Atmosphere
+ent-AirSensorDecapoid = { ent-AirSensor }
+    .desc = { ent-AirSensor.desc }
+    .suffix = { ent-AirSensorDecapoidBase.suffix }
+ent-GasVentPumpDecapoid = { ent-GasVentPump }
+    .desc = { ent-GasVentPump.desc }
+    .suffix = { ent-AirSensorDecapoidBase.suffix }
+ent-GasVentScrubberDecapoid = { ent-GasVentScrubber }
+    .desc = { ent-GasVentScrubber.desc }
+    .suffix = { ent-AirSensorDecapoidBase.suffix }
+ent-AirAlarmDecapoid = { ent-AirAlarm }
+    .desc = { ent-AirAlarm.desc }
+    .suffix = Decapoid Atmosphere, auto mode disabled

@@ -1,0 +1,12 @@
+ent-GasVentPumpFreezerAlt1 = { ent-GasVentPumpFreezer }
+    .desc = { ent-GasVentPumpFreezer.desc }
+    .suffix = { ent-GasVentPumpFreezer.suffix }
+ent-GasVentPumpFreezerAlt2 = { ent-GasVentPumpFreezer }
+    .desc = { ent-GasVentPumpFreezer.desc }
+    .suffix = { ent-GasVentPumpFreezer.suffix }
+ent-GasVentScrubberFreezerAlt1 = { ent-GasVentScrubberFreezer }
+    .desc = { ent-GasVentScrubberFreezer.desc }
+    .suffix = { ent-GasVentScrubberFreezer.suffix }
+ent-GasVentScrubberFreezerAlt2 = { ent-GasVentScrubberFreezer }
+    .desc = { ent-GasVentScrubberFreezer.desc }
+    .suffix = { ent-GasVentScrubberFreezer.suffix }
