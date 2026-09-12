@@ -319,3 +319,6 @@ error.glsl
 
 # C# Dev Kit cache file
 *.lscache
+
+#locale temp file
+Resources/Locale/zh-TW-txt/
